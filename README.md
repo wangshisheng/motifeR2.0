@@ -8,7 +8,7 @@ motifeR 2.0: improving analysis and annotation of protein post-translational mod
 <img src="Figure1app.png" align="center" height="378" width="900"/>
 
 ## How to use
-A detailed introduction of this software can be found in the Help part of this tool: [https://yslproteomics.shinyapps.io/motifeR2](https://yslproteomics.shinyapps.io/motifeR2). And if you want to install this software locally, please check below.
+A detailed introduction of this software can be found in the **Help** part of this tool: [https://yslproteomics.shinyapps.io/motifeR2](https://yslproteomics.shinyapps.io/motifeR2). And if you want to install this software locally, please check below.
 
 ## Run it locally
 This tool is developed with R, so if you want to run it locally, you may do some preparatory work:  
