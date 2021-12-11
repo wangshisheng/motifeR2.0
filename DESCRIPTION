@@ -1,0 +1,33 @@
+Package: motifeR2
+Type: Package
+Title: motifeR 2.0: improving analysis and annotation of protein post-translational modification motifs
+Version: 1.2.1
+Author: Shisheng Wang
+Maintainer: Shisheng Wang <wssdandan2009@outlook.com>
+Description: motifeR 2.0 is a free, user-friendly and comprehensive web software, can provide five main functions (sequence pre-alignment, blast to human sequences, motif discovery, kinase-substrate analysis, interaction plot) to help users analyze their non-human sequence data.
+Imports:
+  shiny,
+  shinyBS,
+  shinyjs,
+  DT,
+  gdata,
+  knitr,
+  ggplot2,
+  ggsci,
+  openxlsx,
+  data.table,
+  Biostrings,
+  stringi,
+  stringr,
+  rmotifx,
+  ggrepel,
+  ggseqlogo,
+  igraph,
+  ggraph,
+  graphlayouts,
+  scales,
+  msa
+Depends: R (>= 3.5.0)
+License: Commercial use is not permitted.
+Encoding: UTF-8
+LazyData: true
