@@ -42,7 +42,7 @@ motifeR2_app()
 Then motifeR will be started as below:
 <img src="openfig.png" align="right" height="1036" width="956"/>
 
-<br>
+<br></br>
 ## Friendly suggestion
 1. Open motifeR 2.0 with Chrome, Mozilla Firefox, Safari or Firefox.
 2. The minimum operating system specifications are: **RAM 4GB, Hard drive 100 GB.**
