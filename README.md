@@ -5,7 +5,7 @@ motifeR 2.0: improving analysis and annotation of protein post-translational mod
 **<font size='5'> motifeR 2.0</font>** is a web-based tool, which possesses the core functions as previously implemented in the first version (motifeR published in 2019) with an addition of several new features, including:1. Mapping the PTM site and protein sequences and identifiers between non-human species and H. sapiens; 2. Calculating sequence window similarity and allowing thresholds of similarity filtering for motif mapping; 3. Offering more flexible annotation based on kinase-substrate databases (e.g. PhosphoSitePlus) and network plots; 4. Visualizing the expression of modification sites on interacting proteins on the basis of public or user-uploaded protein-protein interaction data. This software is available here: [https://yslproteomics.shinyapps.io/motifeR2/](https://yslproteomics.shinyapps.io/motifeR2).
 
 ## Graphical Abstract
-<img src="Figure1app.png" align="center" height="421" width="1000"/>
+<img src="Figure1app.png" align="center" height="378" width="900"/>
 
 ## How to use
 A detailed introduction of this software can be found in the Help part of this tool: [https://yslproteomics.shinyapps.io/motifeR2/](https://yslproteomics.shinyapps.io/motifeR2). And if you want to install this software locally, please check below.
@@ -40,10 +40,7 @@ library(motifeR2)
 motifeR2_app()
 ```
 Then motifeR will be started as below:
-<img src="openfig.png" align="right" height="425" width="900"/>
-
-
-**Bravo!** You are successful to run motifeR 2.0 locally, then you can analyze your own data. Enjoy yourself^_^
+<img src="openfig.png" align="right" height="1036" width="956"/>
 
 
 ## Friendly suggestion
