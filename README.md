@@ -40,10 +40,10 @@ library(motifeR2)
 motifeR2_app()
 ```
 Then motifeR will be started as below:
-<img src="openfig.jpg" align="right" height="425" width="900"/>
+<img src="openfig.png" align="right" height="425" width="900"/>
 
 
-**Bravo!** You are successful to run motifeR locally, then you can analyze your own data. Enjoy yourself^_^
+**Bravo!** You are successful to run motifeR 2.0 locally, then you can analyze your own data. Enjoy yourself^_^
 
 
 ## Friendly suggestion
