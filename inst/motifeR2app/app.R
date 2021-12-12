@@ -422,7 +422,7 @@ ui<-renderUI(
           sidebarPanel(
             width = 3,
             h3(
-              "Step4: Motif Enrichment and Plot",
+              "Step 4: Motif Enrichment and Plot",
               tags$span(
                 id = 'span4',
                 `data-toggle` = "tooltip4",
@@ -546,7 +546,7 @@ ui<-renderUI(
           sidebarPanel(
             width = 3,
             h3(
-              "Step5: Annotation based on Kinase-Substrate database",
+              "Step 5: Annotation based on Kinase-Substrate database",
               tags$span(
                 id = 'span5',
                 `data-toggle` = "tooltip5",
@@ -630,7 +630,7 @@ ui<-renderUI(
           sidebarPanel(
             width = 3,
             h3(
-              "Step6: Interaction between non-human proteins and human proteins",
+              "Step 6: Interaction between non-human proteins and human proteins",
               tags$span(
                 id = 'span6',
                 `data-toggle` = "tooltip6",
@@ -776,7 +776,220 @@ ui<-renderUI(
             )
           )
         )
-      )#,
+      ),
+      tabPanel(
+        "Help",
+        navlistPanel(
+          id="helpmanualid",
+          "Detailed description",
+          tabPanel(
+            "1. Overview of motifeR 2.0",
+            div(style="text-align:left;margin-top:15px;font-size:140%;",HTML("<b>Brief description</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px",
+              "Post-translational modification (PTM) proteomics analyses such as phosphoproteomics are often performed in non-human species, whereas site-specific PTM functions and biological annotations are much more established in human than other speices. motifeR 2.0 is a web-based platform that built in R (Version 4.1.1), and the graphical user interface was implemented using R Shiny framework (version 1.6.0). In this importamt update, we have implemented three new important functions. 1. Mapping the PTM site and protein sequences and identifiers between non-human species and H. sapiens. The query protein sequences were blasted to the reference proteome sequences of H.sapiens using public and widely used packages such as metabalstr and ClustualW. The resulting alignments were used to convert the sequence positions of detected PTMs in non-human species to positions in H.sapiens protein sequences. 2. Calculating sequence window similarity and allowing thresholds of similarity filtering during the mapping, which can be iteratively performed together with human database-based PTM site annotation so that the users can set flexible thresholds 3. Visualizing the expression of modification sites on interacting proteins on the basis of public or user-uploaded protein-protein interaction (PPI) data. In motifeR 2.0, users can choose to upload a PTM sites expression matrix, as well as a PPI database (e.g. SARS-CoV-2 virus-Human PPI database). Then, this tool can plot the expression of PTM sites on interacting proteins with the igraph package. Notebly, all the previous functions of motifeR 1.0, such as handling data outputs from multiple proteomic software, locating the phosphoproteomic data to PTM site identities in the peptide and protein sequence, ggseqlogo package based visualization of enriched motifs, and illustration of kinase-substrate networks in humans are continued to be fully supported. Furthermore, motifeR 2.0 can provide downloadable tables during all analytical steps and figures supporting following data analysis."
+            ),
+            div(style="text-align:center;margin-top: 8px",
+                a(href='#',
+                  img(src='Figure1app.png',height=450))),
+            #div(style="text-align:left;margin-top:20px;font-size:140%;",HTML("<b>1.2 What motifeR 2.0 exactly does in each step ?</b>")),
+            #div(
+            #  style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+            #  "As described above, there are four main steps in the data analysis process of motifeR 2.0: (1) Upload of proteomics data; (2) Data quality control;
+            #  (3) Missing value imputation; (4) Performance evaluation. However, many users care about the detailed operation in each step.
+            #  The figure below shows the major steps of the data analysis process in motifeR 2.0. We take two groups of samples
+            #  (five biological replicates in each group, labeled A1, A2, A3, A4, A5, B1, B2, B3, B4, B5 in the original intensity data)
+            #  for example. Feature means the identified proteins/peptides."
+            #),
+            #div(style="text-align:center;margin-top:8px;margin-bottom:30px;",
+            #    a(href='#',
+            #      img(src='FigureS2app.png',height=1000))),
+            icon = icon("dashboard")
+          ),
+          tabPanel(
+            "2. User manual",
+            div(style="text-align:left;margin-top:15px;font-size:170%;",HTML("<b>How to use this tool step by step?</b>")),
+            div(style="text-align:left;margin-top:20px;font-size:150%;",HTML("<b>2.1 Input data preparation</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              HTML("motifeR 2.0 supports five basic file formats (.csv, .txt, .xlsx, .xls and .fasta). Before analysis, users should prepare their peptide sequences with modification.
+              The data required here could be readily generated based on results of several popular tools such as <a href='https://www.maxquant.org/' target='_blank'>MaxQuant</a>,
+              <a href='https://biognosys.com/shop/spectronaut' target='_blank'>Spectronaut</a>, and so on. Then
+              can upload the sequence data into motifeR 2.0 with right formats respectively and start subsequent analysis.")
+            ),
+            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.1 Modified peptide sequences with normal type</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              HTML("In this situation, users may mark those modified residues (e.g. S, T, Y with phosphorylation) with some label they like (such as “#” or “@”) in advance. The peptide sequences like this (download <a href='https://github.com/wangshisheng/motifeR2.0/blob/main/inst/motifeR2app/Normal_Exampledata.csv' target='_blank'>example data</a>):")
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help1.png',height=400))),
+            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.2 Modified peptide sequences from MaxQuant</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              HTML("If the sequence data are obtained from MaxQuant, then users can found the modified peptide sequences in the modification txt file, for example, the Phospho (STY)Sites.txt file in the output tables from MaxQuant. The peptide sequences like this (download <a href='https://github.com/wangshisheng/motifeR2.0/blob/main/inst/motifeR2app/MaxQuant_Exampledata.csv' target='_blank'>example data</a>):")
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help2.png',height=400))),
+            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.3 Modified peptide sequences from Spectronaut</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              HTML("If the sequence data are obtained from Spectronaut, then users can found the modified peptide sequences in the Standard Report part of Spectronaut, for example, export the Peptide Quant results from the Pivot Report and extract the modified peptide sequeces from the EG.ModifiedSequence column. The peptide sequences like this (download <a href='https://github.com/wangshisheng/motifeR2.0/blob/main/inst/motifeR2app/Spectronaut_Exampledata.csv' target='_blank'>example data</a>):")
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help3.png',height=400))),
+            div(style="text-align:left;margin-top:10px;font-size:120%;",HTML("<b>2.1.4 Background data</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              HTML("Background data here means the protein sequences (.fasta format). Users should use the same protein sequences file as the background database they obtain the modified peptide sequences from some common software, such as MaxQuant, Spectronaut. For example, users can download the protein sequences from <a href='https://www.uniprot.org/' target='_blank'>UniProt</a>. The protein sequences like this (download <a href='https://github.com/wangshisheng/motifeR2.0/blob/main/inst/motifeR2app/fasta/10116.fasta' target='_blank'>example data from Rat</a>):")
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help4.png',height=500))),
+            div(style="text-align:left;margin-top:50px;font-size:150%;",HTML("<b>2.2 Operating Procedure of motifeR 2.0 (Six steps)</b>")),
+            div(style="text-align:left;margin-top:20px;font-size:120%;",HTML("<b>Step 1. Import Sequence Data</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "After preparing required data (please check part 2.1 above), users can click 'Import data' and upload their own data in the left parameter panel:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help5.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "If users do not upload any data, motifeR 2.0 will tell them 'motifeR 2.0 detects that you did not upload your data. Please upload the sequence data, or load the example data to check first.' in the right result panel. Then they can choose 'Load example data' and download these example data by clicking relative button:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help6.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "For every parameter in the parameter panel, users can check its detailed description when they mouse over this parameter. Shown as below:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help7.png',width=1200))),
+            div(style="text-align:left;margin-top:20px;font-size:130%;",HTML("<b>Step 2. Pre-alignment</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "This step aligns those peptide sequences with the background database (protein sequences) and force the modified sites/residues to be central sites, then users can get the standard peptide window sequences. After selecting suitable methods, users click the 'Calculate' button and obtain results as below:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help8.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "Then users can click the 'Result description' button to check the meaning of each column."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help9.png',width=1200))),
+            div(style="text-align:left;margin-top:16px;font-size:130%;",HTML("<b>Step 3. Blast to Human proteins</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "This step will map the PTM site and protein sequences and identifiers between non-human species and Human. After selecting suitable methods, users click the 'Calculate' button and obtain results as below:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help10.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "Similarly, users can also click the 'Result description' button to check the meaning of each column."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help11.png',width=1200))),
+            div(style="text-align:left;margin-top:16px;font-size:130%;",HTML("<b>Step 4. Motif Enrichment and Plot</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "This step will find overrepresented sequence motifs for uploaded peptides and blasted peptides respectively. After selecting suitable methods, users click the 'Calculate' button and obtain results as below:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help12.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "Similarly, users can also click the 'Result description' button to check the meaning of each column."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help13.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "Then the motif plot as below:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help14.png',width=1200))),
+            div(style="text-align:left;margin-top:16px;font-size:130%;",HTML("<b>Step 5. Annotation based on Kinase-Substrate database</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "This step will Offer more flexible annotation based on kinase-substrate databases (e.g. PhosphoSitePlus) and network plots. After selecting suitable methods, users click the 'Calculate' button and obtain the annotation results for uploaded peptides as below:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help15.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "The annotation results for blasted peptides as below, and we can find that users can obtain much more abundant information after mapping to human proteins, for instance, the rows of annotated results of example data become from 278 to 6951."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help16.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "Then click 'Node and edge table' panel. The node table and the edge table are used for network plot next. Please note: When the network is large, actually the network plot can not be shown immediately and may be corrupted in the next panel (i.e. Network Plot), thus users can download the two tables and input them into other tools (e.g. Cytoscape)."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help17.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "The network plot is shown as below:"
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help18.png',width=1200))),
+            div(style="text-align:left;margin-top:16px;font-size:130%;",HTML("<b>Step 6. Interaction between non-human proteins and human proteins</b>")),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "This step will visualize the expression of modification sites on interacting proteins on the basis of protein-protein interaction data. Users need prepare the PTM site expression data, samples information and interaction data. Users can click 'Load example data' to check first."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help19.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              HTML("For the example data: 1. The expression matrix were obtained using Spectronaut software from the C. sabaeus in COVID research (<a href='https://doi.org/10.1016/j.cell.2020.06.034' target='_blank'>doi: 10.1016/j.cell.2020.06.034</a>). The first column is protein ids (PTM.ProteinId), the second column is modified amino acids (PTM.SiteAA), the third is PTM locations in protein sequeces (PTM.SiteLocation), and the next columns are sample names. The missing values should be replcaed with NA. Therefore, users should also prepare their expression data like this. 2. Users need type in the right samples information about the groups, replicates and group names, for example, there 6 groups and 2, 2, 3, 3, 3, 3 replicates for each group, the group names are 0h, 2h, 4h, 8h, 12h, 24h.
+              3. The interaction data were obtained from a SARS-CoV-2 virus-Human PPI database (<a href='https://doi.org/10.1038/s41586-020-2286-9' target='_blank'>doi: 10.1038/s41586-020-2286-9</a>). The first two columns are interacting protein names/IDs (Bait for SARS-CoV-2 virus protein names and Preys for human protein UniProt ids), the third column is protein/gene names for the second column.")
+            ),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "Then click '2. Processed expression data' panel. motifeR 2.0 will process median normalization, missing value imputation with KNN method, log data with base 2 by default."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help20.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
+              "Finally, click '3. Interaction plot' panel. Users can obtain the interacting proteins plot. If users change the 'Select one interacting protein' parameter, they can obtain different interacting proteins plot."
+            ),
+            div(style="text-align:center;margin-top:8px;",
+                a(href='#',
+                  img(src='help21.png',width=1200))),
+            div(
+              style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:50px;margin-right:20px;margin-bottom:30px;",
+              HTML("If you have any questions, comments or suggestions about motifeR 2.0, please feel free to contact: <u>wsslearning@omicsolution.com</u>. We really appreciate that you use motifeR 2.0, and your suggestions should be valuable to its improvement in the future.")
+            ),
+            icon = icon("file-alt")
+          ),
+          widths=c(3,9)
+        )#,
+        #icon = icon("info-circle")
+      )
       #tabPanel(
       #  "Building Species Database",
       #  sidebarLayout(
@@ -849,10 +1062,25 @@ server<-shinyServer(function(input, output, session){
               a(href='#',
                 img(src='Figure1app.png',height=imgwidth))),
           div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:15px",
-              HTML("<b>motifeR 2.0</b> is a web-based tool, which possesses four core functions as previously implemented in the first version (<a href='https://doi.org/10.1002/pmic.201900245' target='_blank'>motifeR published in 2019</a>) with an addition of three new functions. First, input peptide sequence data. This tool accepts multiple types of input data, such as the peptide sequences with a standard form, which means every peptide with a user-defined PTM label next to the modification amino acid (e.g. GIGT#PPNTTPIK), or the PTM results directly from some common software (e.g. MaxQuant and Spectronaut). Second, irregular peptide sequences with modification sites are pre-aligned with the whole protein sequences, which can be downloaded from some well-known database (e.g. UniProt). Third, motif enrichment analysis is fulfilled based on an iterative statistical approach implemented in rmotifx package and motif plots are visualized using the ggseqlogo package. Fourth, this tool can retrieve the kinase-substrate annotation information derived from the PhosphoSitePlus for the pre-aligned results and depict the networks of kinase-substrate relationship. In addition, we added three new functions to accomplish kinase-substrate annotation for modification peptides/proteins across different species, as well as relative results visualization for diverse analysis requirements from users: 1. Mapping protein sequences and identifiers between non-human species and H.sapiens, 2. Calculating sequence window similarity, 3. Visualizing the expression of modification sites on interacting proteins on the basis of protein-protein interaction data. In addition, this tool supports both online access and local installation. The source codes and installation instructions can be available in the GitHub repository: <a href='https://github.com/wangshisheng/motifeR2.0' target='_blank'>https://github.com/wangshisheng/motifeR2.0</a> under an MIT license.")),
+              HTML("<b>motifeR 2.0</b> is a web-based tool, which possesses the core functions as previously implemented in the first version (<a href='https://doi.org/10.1002/pmic.201900245' target='_blank'>motifeR published in 2019</a>) with an addition of several new features, including:")),
+          div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:5px",
+              #HTML("<br />"),
+              HTML("&nbsp;&nbsp;&nbsp;&nbsp;1. Mapping the PTM site and protein sequences and identifiers between non-human species and H. sapiens;")),
+          div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:5px",
+              #HTML("<br />"),
+              HTML("&nbsp;&nbsp;&nbsp;&nbsp;2. Calculating sequence window similarity and allowing thresholds of similarity filtering for motif mapping;")),
+          div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:5px",
+              #HTML("<br />"),
+              HTML("&nbsp;&nbsp;&nbsp;&nbsp;3. Offering more flexible annotation based on kinase-substrate databases (e.g. PhosphoSitePlus) and network plots;")),
+          div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:5px",
+              #HTML("<br />"),
+              HTML("&nbsp;&nbsp;&nbsp;&nbsp;4. Visualizing the expression of modification sites on interacting proteins on the basis of public or user-uploaded protein-protein interaction data.")),
+          div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:15px",
+              #HTML("<br />"),
+              HTML("In addition, this tool supports both online access and local installation. The source codes and installation instructions can be available in the GitHub repository: <a href='https://github.com/wangshisheng/motifeR2.0' target='_blank'>https://github.com/wangshisheng/motifeR2.0</a> under an MIT license.")),
           div(style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;margin-top:15px;font-size:120%",
               #HTML("<br />"),
-              HTML("Finally, motifeR 2.0 is developed by <a href='https://shiny.rstudio.com/' target='_blank'>R shiny (Version 1.6.0)</a>, and is free and open to all users with no login requirement. It can be readily accessed by all popular web browsers including Google Chrome, Mozilla Firefox, Safari and Internet Explorer 10 (or later), and so on. We would highly appreciate that if you could send your feedback about any bug or feature request to Shisheng Wang at <u>wsslearning@omicsolution.com</u>.")),
+              HTML("Finally, motifeR 2.0 is developed by <a href='https://shiny.rstudio.com/' target='_blank'>R shiny (Version 1.6.0)</a>, and is free and open to all users with no login requirement. It can be readily accessed by all popular web browsers including Google Chrome, Mozilla Firefox, Safari and Internet Explorer 10 (or later), and so on. We would highly appreciate that if you could send your feedback about any bug or feature request to Shisheng Wang at <u>shishengwang@wchscu.cn</u>.")),
           div(style="text-align:center;margin-top:20px;font-size:140%;color:darkgreen",
               HTML("<br />"),
               HTML("^_^ <em>Enjoy yourself in motifeR 2.0</em> ^_^")),
