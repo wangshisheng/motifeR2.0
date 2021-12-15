@@ -427,7 +427,8 @@ ui<-renderUI(
                 id = 'span4',
                 `data-toggle` = "tooltip4",
                 title = '
-                This step will find overrepresented sequence motifs and visualize them.
+                This step will find overrepresented sequence motifs for uploaded peptides and blasted peptides respectively, then visualize them. Uploaded peptides here means those modified peptides uploaded directly by users. 
+                Blasted peptides here means those modified peptides mapped to human after blasting.
                 ',
                 tags$span(class = "glyphicon glyphicon-question-sign")
               )
@@ -444,10 +445,10 @@ ui<-renderUI(
             div(id="pvalcutoff_div",numericInput("pvalcutoff",h5("2. P-value threshold:"),value = 0.000001,min = 0)),
             bsTooltip("pvalcutoff_div","The p-value threshold for the binomial probability. This is used for the selection of significant residue/position in the motif.",
                       placement = "right",options = list(container = "body")),
-            div(id='enrichseqnum_div',textInput("enrichseqnum",h5("3. Motif index for plot:"),value = "1")),
+            div(id='enrichseqnum_div',textInput("enrichseqnum",h5("3. Motif index for plot:"),value = "1-4")),
             bsTooltip("enrichseqnum_div",'Which motif would be plotted. If users only type in one number, it will plot the relative motif. If users type in "1-10", it will plot the 1th to 10th motifs.',
                       placement = "bottom",options = list(container = "body")),
-            div(id='equalheightif_div',checkboxInput("equalheightif",h5("4. Equal height or not?"),FALSE)),
+            div(id='equalheightif_div',checkboxInput("equalheightif",h5("4. Equal height or not?"),TRUE)),
             bsTooltip("equalheightif_div",'Whether all residues in the figure have equal height. Default is false.',
                       placement = "bottom",options = list(container = "body")),
             numericInput("motifplot_height",h5("5. Figure height:"),value = 800),
@@ -460,7 +461,7 @@ ui<-renderUI(
             radioButtons(
               "motiffujidfxuanze",
               label = h4(""),
-              choices = list("1. Uploaded peptide motifs" = 1,"2. Blasted peptide motifs"=2),
+              choices = list("1. Uploaded peptide motifs results" = 1,"2. Blasted peptide motifs results"=2),
               selected = 1,
               inline = TRUE
             ),
@@ -470,39 +471,53 @@ ui<-renderUI(
               radioButtons(
                 "motifplotxuanze1",
                 label = h4(""),
-                choices = list("1.1 Uploaded peptide motif table" = 1,"1.2 Uploaded peptide motif plot"=2),
+                choices = list("1.1 Motif plot" = 1,"1.2 Motif table"=2),
                 selected = 1,
                 inline = TRUE
               ),
               hr(),
               conditionalPanel(
                 condition = "input.motifplotxuanze1==1",
-                hidden(
-                  div(
-                    id="motiffujidfxuanze_btn",
-                    #h4("1. Uploaded peptide motif enrichment results:"),
-                    fluidRow(
-                      column(
-                        2,
-                        downloadButton("motiffujidl","Download")
-                      ),
-                      column(
-                        2,
-                        actionButton("mcsbtn_resjieshi3","Result description",icon("file-alt"),
-                                     style="color: black; background-color: #E6E6FA; border-color: #E6E6FA")
-                      )
-                    ),
-                    dataTableOutput("motiffuji")#,
-                    #h4("2. Enrichment results mapped to alignment results:"),
-                    #downloadButton("motiffujidl2","Download"),
-                    #dataTableOutput("motiffuji2")
-                  )
-                )
+                downloadButton("motifplotdownload","Download"),
+                plotOutput("motifplot")
+                #hidden(
+                #  div(
+                #    id="motiffujidfxuanze_btn",
+                #    #h4("1. Uploaded peptide motif enrichment results:"),
+                #    fluidRow(
+                #      column(
+                #        2,
+                #        downloadButton("motiffujidl","Download")
+                #      ),
+                #      column(
+                #        2,
+                #        actionButton("mcsbtn_resjieshi3","Result description",icon("file-alt"),
+                #                     style="color: black; background-color: #E6E6FA; border-color: #E6E6FA")
+                #      )
+                #    ),
+                #    dataTableOutput("motiffuji")#,
+                #    #h4("2. Enrichment results mapped to alignment results:"),
+                #    #downloadButton("motiffujidl2","Download"),
+                #    #dataTableOutput("motiffuji2")
+                #  )
+                #)
               ),
               conditionalPanel(
                 condition = "input.motifplotxuanze1==2",
-                downloadButton("motifplotdownload","Download"),
-                plotOutput("motifplot")
+                fluidRow(
+                  column(
+                    2,
+                    downloadButton("motiffujidl","Download")
+                  ),
+                  column(
+                    2,
+                    actionButton("mcsbtn_resjieshi3","Result description",icon("file-alt"),
+                                 style="color: black; background-color: #E6E6FA; border-color: #E6E6FA")
+                  )
+                ),
+                dataTableOutput("motiffuji")
+                #downloadButton("motifplotdownload","Download"),
+                #plotOutput("motifplot")
               )
             ),
             conditionalPanel(
@@ -510,7 +525,7 @@ ui<-renderUI(
               radioButtons(
                 "motifplotxuanze2",
                 label = h4(""),
-                choices = list("2.1 Blasted peptide motif table" = 1,"2.2 Blasted peptide motif plot"=2),
+                choices = list("2.1 Motif plot" = 1,"2.2 Motif table"=2),
                 selected = 1,
                 inline = TRUE
               ),
@@ -518,6 +533,11 @@ ui<-renderUI(
               conditionalPanel(
                 condition = "input.motifplotxuanze2==1",
                 #h4("1. Blasted peptide motif enrichment results:"),
+                downloadButton("motifblastplotdl","Download"),
+                plotOutput("motifblastplot")
+              ),
+              conditionalPanel(
+                condition = "input.motifplotxuanze2==2",
                 fluidRow(
                   column(
                     2,
@@ -530,11 +550,6 @@ ui<-renderUI(
                   )
                 ),
                 dataTableOutput("motiffujiblast")
-              ),
-              conditionalPanel(
-                condition = "input.motifplotxuanze2==2",
-                downloadButton("motifblastplotdl","Download"),
-                plotOutput("motifblastplot")
               )
             )
           )
@@ -905,21 +920,22 @@ ui<-renderUI(
             div(style="text-align:left;margin-top:16px;font-size:130%;",HTML("<b>Step 4. Motif Enrichment and Plot</b>")),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              "This step will find overrepresented sequence motifs for uploaded peptides and blasted peptides respectively. After selecting suitable methods, users click the 'Calculate' button and obtain results as below:"
+              "This step will find overrepresented sequence motifs for uploaded peptides and blasted peptides respectively, then plot them. Uploaded peptides here means those modified peptides uploaded directly by users. 
+                Blasted peptides here means those modified peptides mapped to human after blasting. After selecting suitable methods, users click the 'Calculate' button and obtain the motif plot as below:"
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
                   img(src='help12.png',width=1200))),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              "Similarly, users can also click the 'Result description' button to check the meaning of each column."
+              "Then the motif table results as below:"
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
                   img(src='help13.png',width=1200))),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:10px;margin-right:20px;",
-              "Then the motif plot as below:"
+              "Similarly, users can also click the 'Result description' button to check the meaning of each column."
             ),
             div(style="text-align:center;margin-top:8px;",
                 a(href='#',
@@ -2184,7 +2200,7 @@ server<-shinyServer(function(input, output, session){
       ##############
       output$motifplot<-renderPlot({
         motiffujidf<-isolate(motiffujiout())
-        enrichseqnumstr<-isolate(as.numeric(strsplit(input$enrichseqnum,"-|;")[[1]]))
+        enrichseqnumstr<-isolate(as.numeric(strsplit(input$enrichseqnum,"-|;|,")[[1]]))
         if(input$equalheightif){
           equalh<-"probability"
         }else{
@@ -2193,7 +2209,10 @@ server<-shinyServer(function(input, output, session){
         if(length(enrichseqnumstr)==1){
           enrichseq<-strsplit(motiffujidf$Enrich.seq[enrichseqnumstr],";")[[1]]
           ggseqlogo(enrichseq, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }else{
           motiffujidf1<-motiffujidf[enrichseqnumstr[1]:enrichseqnumstr[2],]
           enrichseq<-lapply(motiffujidf1$Enrich.seq,function(x){
@@ -2201,12 +2220,15 @@ server<-shinyServer(function(input, output, session){
           })
           names(enrichseq)<-motiffujidf1$motif
           ggseqlogo(enrichseq, ncol = 2, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }
       },height = motifplot_height)
       motifplotout<-reactive({
         motiffujidf<-isolate(motiffujiout())
-        enrichseqnumstr<-isolate(as.numeric(strsplit(input$enrichseqnum,"-|;")[[1]]))
+        enrichseqnumstr<-isolate(as.numeric(strsplit(input$enrichseqnum,"-|;|,")[[1]]))
         if(input$equalheightif){
           equalh<-"probability"
         }else{
@@ -2215,7 +2237,10 @@ server<-shinyServer(function(input, output, session){
         if(length(enrichseqnumstr)==1){
           enrichseq<-strsplit(motiffujidf$Enrich.seq[enrichseqnumstr],";")[[1]]
           ggseqlogo(enrichseq, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }else{
           motiffujidf1<-motiffujidf[enrichseqnumstr[1]:enrichseqnumstr[2],]
           enrichseq<-lapply(motiffujidf1$Enrich.seq,function(x){
@@ -2223,7 +2248,10 @@ server<-shinyServer(function(input, output, session){
           })
           names(enrichseq)<-motiffujidf1$motif
           ggseqlogo(enrichseq, ncol = 2, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }
       })
       output$motifplotdownload<-downloadHandler(
@@ -2246,7 +2274,10 @@ server<-shinyServer(function(input, output, session){
         if(length(enrichseqnumstr)==1){
           enrichseq<-strsplit(motifblastfujidf$Enrich.seq[enrichseqnumstr],";")[[1]]
           ggseqlogo(enrichseq, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }else{
           motifblastfujidf1<-motifblastfujidf[enrichseqnumstr[1]:enrichseqnumstr[2],]
           enrichseq<-lapply(motifblastfujidf1$Enrich.seq,function(x){
@@ -2254,7 +2285,10 @@ server<-shinyServer(function(input, output, session){
           })
           names(enrichseq)<-motifblastfujidf1$motif
           ggseqlogo(enrichseq, ncol = 2, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }
       },height = motifplot_height)
       motifblastplotout<-reactive({
@@ -2268,7 +2302,10 @@ server<-shinyServer(function(input, output, session){
         if(length(enrichseqnumstr)==1){
           enrichseq<-strsplit(motifblastfujidf$Enrich.seq[enrichseqnumstr],";")[[1]]
           ggseqlogo(enrichseq, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }else{
           motifblastfujidf1<-motifblastfujidf[enrichseqnumstr[1]:enrichseqnumstr[2],]
           enrichseq<-lapply(motifblastfujidf1$Enrich.seq,function(x){
@@ -2276,7 +2313,10 @@ server<-shinyServer(function(input, output, session){
           })
           names(enrichseq)<-motifblastfujidf1$motif
           ggseqlogo(enrichseq, ncol = 2, method=equalh)+
-            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))
+            scale_x_discrete(limits=as.character(-input$minseqs:input$minseqs))+
+            theme(axis.text=element_text(size=14),strip.text = element_text(size=18),
+                  axis.title=element_text(size=16),legend.text = element_text(size = 12),
+                  legend.title = element_text(size = 13))
         }
       })
       output$motifblastplotdl<-downloadHandler(
