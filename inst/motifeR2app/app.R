@@ -998,7 +998,7 @@ ui<-renderUI(
                   img(src='help21.png',width=1200))),
             div(
               style="text-align:justify;width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;font-size:120%;margin-top:50px;margin-right:20px;margin-bottom:30px;",
-              HTML("If you have any questions, comments or suggestions about motifeR 2.0, please feel free to contact: <u>wsslearning@omicsolution.com</u>. We really appreciate that you use motifeR 2.0, and your suggestions should be valuable to its improvement in the future.")
+              HTML("If you have any questions, comments or suggestions about motifeR 2.0, please feel free to contact: <u>shishengwang@wchscu.cn</u>. We really appreciate that you use motifeR 2.0, and your suggestions should be valuable to its improvement in the future.")
             ),
             icon = icon("file-alt")
           ),
